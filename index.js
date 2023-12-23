@@ -6,10 +6,8 @@
 //  import inquirer from 'inquirer';
  const inquirer = require('inquirer');
  var qr = require('qr-image');
- 
- 
 
-
+ 
  inquirer
   .prompt([ 
     /* Pass your questions in here */
@@ -24,6 +22,8 @@
     url = answer.url;
     var qr_svg = qr.image(url, { type: 'png' });
     qr_svg.pipe(require('fs').createWriteStream(`${url}.png`));
+    // create atext bfile
+    qr_svg.pipe(require('fs').createWriteStream(`${url}.txt`));
     var svg_string = qr.imageSync(url, { type: 'png' });
   })
   .catch((error) => {
@@ -33,4 +33,3 @@
       // Something else went wrong
     }
   });
-
