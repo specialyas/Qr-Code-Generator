@@ -7,19 +7,24 @@
  const inquirer = require('inquirer');
  var qr = require('qr-image');
  
+ 
 
 
  inquirer
   .prompt([ 
     /* Pass your questions in here */
     {
-        name: 'faveReptile',
-        message: 'What is your favorite reptile?'
+        name: 'url',
+        message: 'Enter url of website:'
       },
   ])
-  .then((answers) => {
+  .then((answer) => {
     // Use user feedback for... whatever!!
-    console.info('Answer:', answers.faveReptile);
+    console.info('Answer:', answer.url);
+    url = answer.url;
+    var qr_svg = qr.image(url, { type: 'png' });
+    qr_svg.pipe(require('fs').createWriteStream(`${url}.png`));
+    var svg_string = qr.imageSync(url, { type: 'png' });
   })
   .catch((error) => {
     if (error.isTtyError) {
@@ -28,6 +33,4 @@
       // Something else went wrong
     }
   });
-
-
 
