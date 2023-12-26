@@ -6,6 +6,7 @@
 //  import inquirer from 'inquirer';
  const inquirer = require('inquirer');
  var qr = require('qr-image');
+ var fs = require('fs');
 
  
  inquirer
@@ -17,13 +18,14 @@
       },
   ])
   .then((answer) => {
-    // Use user feedback for... whatever!!
+    // Use user feedback to create a qr image!!
     console.info('Answer:', answer.url);
     url = answer.url;
     var qr_svg = qr.image(url, { type: 'png' });
-    qr_svg.pipe(require('fs').createWriteStream(`${url}.png`));
-    // create atext bfile
-    qr_svg.pipe(require('fs').createWriteStream(`${url}.txt`));
+    qr_svg.pipe(fs.createWriteStream(`qr_img.png`));
+    // create atext file
+   // qr_svg.pipe(require('fs').createWriteStream(`text.txt`));
+   fs.writeFileSync('URL.txt', url); 
     var svg_string = qr.imageSync(url, { type: 'png' });
   })
   .catch((error) => {
